@@ -1,9 +1,7 @@
 <?php
-session_start();
-//MOCKED TODO CHANGE THE STUFF IN HERE ASAP
-$_SESSION["user_id"] = 1;
-
-
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 //this is the config file where we set the the database configs
 define("DB_HOST","localhost");

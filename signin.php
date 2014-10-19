@@ -12,6 +12,7 @@ function getLogin($con,$table,$sqlUser,$sqlPass,$user,$pass,$returnType)
   		{
   			if($returnType=="boolean")
   			{
+                $_SESSION['user_id'] = $row['user_id'];
   				return true;
   			}
   			else
@@ -29,11 +30,11 @@ function getLogin($con,$table,$sqlUser,$sqlPass,$user,$pass,$returnType)
 if(isset($_POST['formSubmit']))
 {
 			
-			if(getLogin($con,"user","email","password",$_POST['formEmail'],$_POST['formPassword'],"boolean"))
+			if(getLogin($con,"user","email","password",$_POST['formEmail'],sha1($_POST['formPassword']),"boolean"))
 			{
 	  			$_SESSION['loggedIn']=true;
 	  			$_SESSION['userEmail']=$_POST['formEmail'];
-	  			
+
           		$_SESSION['userName']=getLogInUserName($_POST['formEmail']);
           		header( 'Location: buy.php' ) ;
 			}
@@ -49,7 +50,7 @@ if(isset($_POST['formSubmit']))
 
 function getLogInUserName($email)
 {
-
+    global $con;
 	
 	$result=mysqli_query($con,"SELECT * FROM user WHERE email='".$email."'");
 	
@@ -83,7 +84,7 @@ function getLogInUserName($email)
 </head>
 
 <script>
-    var base_url = "http://localhost/projects/hacka/Tick-It";
+    var base_url = "http://localhost/Tick-It";
     var user_id = undefined;
 
 
@@ -91,25 +92,24 @@ function getLogInUserName($email)
 
 function isValidEmail(email)
 {
-
-
 	var atpos=email.indexOf("@");
 	var dotpos=email.lastIndexOf(".");
-	if (atpos<1 || dotpos<atpos+2 || dotpos+2>=email.length)
-  {
-  return false;
-  }
-  return true;
+
+	if (atpos<1 || dotpos<atpos+2 || dotpos+2>=email.length){
+        return false;
+    }
+    return true;
 }
 
 
 
 function submitRegistration()
 {
+
 	var username=document.getElementsByName("formUserName")[0].value.trim();
 	var password1=document.getElementsByName("formPassword1")[0].value.trim();
 	var password2=document.getElementsByName("formPassword2")[0].value.trim();
-	var email=document.getElementsByName("formEmail")[0].value.trim();
+	var email=$("#formEmail").val().trim();
 
 
 
@@ -122,14 +122,14 @@ function submitRegistration()
 
 function registerIfValidUserName(pUserName,pPassword,pEmail)
 {
-	$.ajax({ url: 'registrationServer.php',
-         data: {action: 'isValidUserName',username: pUserName},
-         type: 'post',
-         success:function(data) {
-	     registerValidUserName(data,pUserName,pPassword,pEmail);
-   		}
-
-		});
+	$.ajax({
+        url: 'registrationServer.php',
+        data: {action: 'isValidUserName',username: pUserName},
+        type: 'post',
+        success:function(data) {
+            registerValidUserName(data,pUserName,pPassword,pEmail);
+        }
+    });
 
 }
 
@@ -137,13 +137,13 @@ function registerIfValidUserName(pUserName,pPassword,pEmail)
 function registerValidUserName(bool,pUserName,pPassword,pEmail){
 	if(JSON.parse(bool))
 	{
-
-			$.ajax({ url: 'registrationServer.php',
-         data: {action: 'register',username: pUserName, password: pPassword, email: pEmail},
-         type: 'post',
-         success:function(data) {
-			informRegistrationSuccess(data);
-   		}
+        $.ajax({
+            url: 'registrationServer.php',
+            data: {action: 'register',username: pUserName, password: pPassword, email: pEmail},
+            type: 'post',
+            success:function(data) {
+                informRegistrationSuccess(data);
+            }
 
 		});
 
@@ -180,7 +180,7 @@ function isValid( username,password1, password2,email)
 
 	if(username.length<=3)
 	{
-		alert("Please Make Username Longer.").
+		alert("Please Make Username Longer.");
 		valid=false;
 	}
 	else if(password1!=password2){
@@ -259,7 +259,7 @@ $('#btnRegister')
 				<input placeholder="User Name" class="form-control" type="text" name="formUserName"/><br>
 				<input placeholder="Password" class="form-control" type="password" name="formPassword1"/><br>
 				<input placeholder="Confirm Password" class="form-control" type="password" name="formPassword2"/><br>
-				<input placeholder="Email" class="form-control" type="text" name="formEmail"/><br>
+				<input placeholder="Email" id="formEmail" class="form-control" type="text" name="formEmail"/><br>
 
 
 				<button class="btn btn-lg btn-primary" data-loading-text="Loading..." id="btnRegister" onClick="submitRegistration();" name="formSubmit">Register</button>

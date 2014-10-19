@@ -132,6 +132,17 @@ class Ticket implements JsonSerializable{
         ];
     }
 
+    public function updateDiscount($newPrice, $newDuration){
+        global $db;
+        $database = $db;
+
+        $discountDurationSec = $newDuration*60;
+        $now = date("Y-m-d H:i:s", time());
+        $formattedOutput = date("Y-m-d H:i:s", time() + $discountDurationSec);
+
+        return $database->update("ticket", "discounted_price = {$newPrice} AND discount_end_time = '{$formattedOutput}' AND discount_start_time = '{$now}'", "ticket_id = {$this->ticket_id}");
+    }
+
     public function get_all_tickets(){
         global $db;
         $database = $db;
@@ -148,7 +159,9 @@ class Ticket implements JsonSerializable{
     private function get_ticket_by_id($id){
         global $db;
         $database = $db;
-        $this->set_array($database->select("ticket", "*", "ticket_id = {$id}"));
+        $temp = $database->select("ticket", "*", "ticket_id = {$id}");
+        $this->set_array($temp[0]);
+
         return $this;
     }
 

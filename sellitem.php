@@ -1,4 +1,5 @@
-<?php require_once "config/config.php";?>
+<?php require_once "config/logged_in_inc.php";?>
+
 
 <div class="container">
     <div class="row">

@@ -23,7 +23,7 @@ function Timer(element){
 
 Timer.prototype.update = function(){
     this.sec--;
-    if(this.sec == 0){
+    if(this.sec <= 0){
         if(this.min == 0 && this.hour == 0){
             this.isOver = true;
             return;
@@ -31,7 +31,7 @@ Timer.prototype.update = function(){
         this.min--;
         this.sec = 59;
     }
-    if(this.min == 0){
+    if(this.min <= 0){
         if(this.hour == 0 && this.sec == 0){
             this.isOver = true;
             return;
@@ -68,6 +68,20 @@ Timer.prototype.start = function(){
 };
 
 
+function updateDiscountById(ticket_id, data){
+    $.ajax({
+        url:base_url + "/ticketAjax.php",
+        data: {
+            id: ticket_id,
+            newPrice: data.newDiscountPrice,
+            duration : data.newDuration
+        },
+        method:"POST",
+        success:function(data){
+            console.log(data);
+        }
+    });
+}
 
 
 $(document).ready(function(){
@@ -97,6 +111,16 @@ $(document).ready(function(){
             }
         }
     });
+
+    $("#new-discount-submit").click(function(){
+        var ticket_id = $(this).data("ref");
+        var data = {
+            newDuration : $("#new-discount-end-time").val(),
+            newDiscountPrice : $("#new-discount-price").val()
+        };
+
+        updateDiscountById(ticket_id, data)
+    })
 
 });
 

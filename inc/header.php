@@ -30,8 +30,18 @@
                 <input id="search-query" type="text" class="form-control col-lg-8" placeholder="Search">
             </form>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="<?php echo BASE_URL;?>/signin.php">Login/Sign Up</a></li>
-
+                <?php
+                if(isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] == true ){
+                ?>
+                    <li><a href="<?php echo BASE_URL;?>/logout.php">Logout</a></li>
+                <?
+                }
+                else{
+                ?>
+                    <li><a href="<?php echo BASE_URL;?>/signin.php">Login/Sign Up</a></li>
+                <?php
+                }
+                ?>
             </ul>
         </div>
     </div>
