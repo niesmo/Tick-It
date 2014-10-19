@@ -33,19 +33,37 @@ function submitItem( $name,$description,$price,$discountedPrice,$discountDuratio
         $checkPhone = 0;
 
 
+
+//TODO Check if the discount is even set to begin with
+
+
+    $discountDurationSec = $discountDuration*60;
+    $now = date("Y-m-d H:i:s", time());
+    $formattedOutput = date("Y-m-d H:i:s", time() + $discountDurationSec);
+
+
+    // $endDiscountTime = time() + $discountDurationSec;
+    // $endDiscountDateTime = new DateTime($endDiscountTime);
+    // $formattedOutput = DATE_FORMAT($endDiscountDateTime, "Y-m-d H:i:s");
+
+    // $timestamp =date("Y-m-d H:i:s",time()+$discountedDuration*60);
+    
+    //     echo($timestamp.date("Y-m-d H:i:s",time()));
+
+
     header('Content-Type: application/json');
 
-    $query = "INSERT INTO ticket (title, description, price, discounted_price, email_shared, phone_number_shared, created_by_id) ". "VALUES ('$name', '$description', $price,$discountedPrice,$checkEmail,$checkPhone, ".$_SESSION['user_id'].")";
+    $query = "INSERT INTO ticket (title, description, price, discounted_price,discount_start_time, discount_end_time, email_shared, phone_number_shared, created_by_id) ". "VALUES ('$name', '$description', $price,$discountedPrice, '{$now}', '{$formattedOutput}' ,$checkEmail,$checkPhone, ".$_SESSION['user_id'].")";
 
     $res = mysqli_query($con,$query);
     if($res == 1){
-        $response = array("status"=>"success");
+        $response = array("status"=>"success", "time"=>$formattedOutput);
         echo json_encode($response, true);
 
         return;
     }
 
-    $response = array("status"=>"failed", "query"=>$query);
+    $response = array("status"=>"failed", "query"=>$query, "time"=>$formattedOutput);
     echo json_encode($response, true);
 }
 
