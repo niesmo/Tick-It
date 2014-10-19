@@ -19,20 +19,20 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Tick-It</a>
+            <a class="navbar-brand" href="<?php echo BASE_URL;?>">Tick-It</a>
         </div>
         <div class="navbar-collapse collapse navbar-responsive-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Buy</a></li>
-                <li><a href="#">Sell</a></li>
+                <li class="active"><a href="<?php echo BASE_URL . "/buy.php";?>">Buy</a></li>
+                <li><a href="<?php echo BASE_URL . "/sellItem.php";?>"">Sell</a></li>
 
             </ul>
             <form class="navbar-form navbar-left">
-                <input type="text" class="form-control col-lg-8" placeholder="Search">
+                <input id="search-query" type="text" class="form-control col-lg-8" placeholder="Search">
             </form>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Login</a></li>
-                <li><a href="#">Sign up</a></li>
+                <li><a href="<?php echo BASE_URL;?>/signin.php">Login/Sign Up</a></li>
+
             </ul>
         </div>
     </div>

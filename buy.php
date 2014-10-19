@@ -19,8 +19,9 @@ $tickets = $MTicket->get_all_tickets();
             foreach($tickets as $ticket){
                 echo "<div class='col-md-4'>";
                     echo "<div class='ticket-details'>";
-                        echo "<h3>{$ticket->get_title()}</h3>";
-                        echo "<p>\${$ticket->get_price()}</p>";
+                        echo "<h3 class='ticket-title'>{$ticket->get_title()}</h3>";
+                        echo "<p class='description'>".substr($ticket->get_description(),0,20)."</p>";
+                        echo "<p class='price'>\${$ticket->get_price()}</p>";
                         if($ticket->is_email_sharable()){
                             echo "<p>{$ticket->get_created_by_user()->get_email()}</p>";
                         }
@@ -30,7 +31,7 @@ $tickets = $MTicket->get_all_tickets();
                         //TODO put an if to check if the discount is still valid
                         //echo "<div class='discount-clock'></div>";
                     echo "</div>";
-                    echo "<div>";
+                    echo "<div class='ticket-buy-btn'>";
                         echo  "<button class='btn btn-info'>Buy it</button>";
                     echo "</div>";
                 echo "</div>";
@@ -44,5 +45,4 @@ $tickets = $MTicket->get_all_tickets();
 
 <?php
 require_once "inc/footer.php";
-
 ?>

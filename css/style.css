@@ -1,5 +1,5 @@
 body {
-    padding-top: 50px;
+    padding-top: 65px;
     padding-bottom: 20px;
 }
 
@@ -9,4 +9,16 @@ button{
 
 .ticket-details{
     height: 150px;
+}
+
+.ticket-details p{
+    margin-top: -10px;
+}
+
+.ticket-details .price{
+    font-weight: bold;
+}
+
+.ticket-buy-btn{
+    margin-bottom: 20px;
 }
