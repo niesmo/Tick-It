@@ -9,8 +9,9 @@
 class Ticket implements JsonSerializable{
     private $ticket_id;
     private $title;
+    private $description;
     private $price;
-    private $discount;
+    private $discounted_price;
     private $discount_start_time;
     private $discount_end_time;
     private $creation_date;
@@ -42,12 +43,16 @@ class Ticket implements JsonSerializable{
         return $this->title;
     }
 
+    public function get_description(){
+        return $this->description;
+    }
+
     public function get_price(){
         return $this->price;
     }
 
-    public function get_discount(){
-        return $this->discount;
+    public function get_discounted_price(){
+        return $this->discounted_price;
     }
 
     public function get_discount_start_time(){
@@ -90,8 +95,9 @@ class Ticket implements JsonSerializable{
         return [
             "id"=>$this->ticket_id,
             "title"=>$this->title,
+            "description"=>$this->description,
             "price"=>$this->price,
-            "discount"=>$this->discount,
+            "discounted_price"=>$this->discounted_price,
             "discount_start_time"=>$this->discount_start_time,
             "discount_end_time"=>$this->discount_end_time,
             "creation_date"=>$this->creation_date,
@@ -125,8 +131,9 @@ class Ticket implements JsonSerializable{
     private function set_array($arr){
         if(isset($arr['ticket_id'])) $this->ticket_id = $arr['ticket_id'];
         if(isset($arr['title'])) $this->title = $arr['title'];
+        if(isset($arr['description'])) $this->description = $arr['description'];
         if(isset($arr['price'])) $this->price = $arr['price'];
-        if(isset($arr['discount'])) $this->discount = $arr['discount'];
+        if(isset($arr['discounted_price'])) $this->discounted_price = $arr['discounted_price'];
         if(isset($arr['discount_start_time'])) $this->discount_start_time = $arr['discount_start_time'];
         if(isset($arr['discount_end_time'])) $this->discount_end_time = $arr['discount_end_time'];
         if(isset($arr['creation_date'])) $this->creation_date = $arr['creation_date'];

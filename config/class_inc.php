@@ -1,4 +1,10 @@
 <?php
+session_start();
+//MOCKED TODO CHANGE THE STUFF IN HERE ASAP
+$_SESSION["user_id"] = 1;
+
+
+
 //this is the config file where we set the the database configs
 define("DB_HOST","localhost");
 define("DB_USER","root");

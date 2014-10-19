@@ -1,9 +1,11 @@
+<?php
+require_once "config/class_inc.php";
+?>
+<!DOCTYPE html>
 <html>
 <head>
-	<!-- Latest compiled and minified CSS -->
 
-
-	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
@@ -16,6 +18,9 @@
 </head>
 
 <script>
+    var base_url = "http://localhost/Tick-It";
+    var user_id = undefined;
+
 function validateForm()
 {
 	var name=document.getElementById("txtName").value.trim();
@@ -62,27 +67,35 @@ function validateForm()
 function submitItem(name, description, price, discountedPrice, discountedDuration, checkEmail, checkPhone)
 {
 	$.ajax({
-   url: 'submitItem.php',
-   data: {
-   		action:'submitItem',
-     	name:name,
-     	description:description,
-     	price:price,
-     	discountedPrice:discountedPrice,
-     	discountedDuration:discountedDuration,
-     	checkEmail:checkEmail,
-     	checkPhone:checkPhone
-   },
-   error: function() {
-     	alert("Sorry, data not sent.")
-   },
-  
-   success: function(data) {
-   		alert(data);
-     	
-   },
-   type: 'POST'
-});
+        url: 'submitItem.php',
+        type: 'POST',
+        data: {
+            action:'submitItem',
+            name:name,
+            description:description,
+            price:price,
+            discountedPrice:discountedPrice,
+            discountedDuration:discountedDuration,
+            checkEmail:checkEmail,
+            checkPhone:checkPhone
+        },
+        error: function(data) {
+            console.log(data);
+            alert("Sorry, data not sent.")
+
+        },
+        success:function(data) {
+            if(data.status == "success"){
+                window.location = base_url + "/buy.php"
+            }
+            else{
+                alert("Something went wrong");
+                console.log(data.query);
+            }
+
+
+        }
+    });
 
 }
 
@@ -129,7 +142,6 @@ function updateDiscountGUI()
 
 
 
-	<form role="form">
   <div class="form-group">
     <label for="exampleInputEmail1">Ticket Name:</label>
     <input type="text" class="form-control" id="txtName" placeholder="Name">
@@ -221,7 +233,7 @@ function updateDiscountGUI()
  
   
   <button style="width: 100%;" onclick="validateForm()" class="btn btn-default">Submit</button>
-</form>
+
 </body>
 
 
