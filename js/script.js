@@ -4,10 +4,78 @@
 
 var base_url = "http://localhost/Tick-It";
 
+function pad(n, width, z) {
+    z = z || '0';
+    n = n + '';
+    return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+}
+
+function Timer(element){
+    this.el = element;
+    this.hour = 0;
+    this.min = 0;
+    this.sec = 0;
+    this.time = new Date();
+    this.timeInterval = undefined;
+    this.isOver = false;
+
+}
+
+Timer.prototype.update = function(){
+    this.sec--;
+    if(this.sec == 0){
+        if(this.min == 0 && this.hour == 0){
+            this.isOver = true;
+            return;
+        }
+        this.min--;
+        this.sec = 59;
+    }
+    if(this.min == 0){
+        if(this.hour == 0 && this.sec == 0){
+            this.isOver = true;
+            return;
+        }
+        this.hour --;
+        this.min = 59;
+    }
+
+    this.time.setHours(this.hour);
+    this.time.setMinutes(this.min);
+    this.time.setSeconds(this.sec);
+};
+
+Timer.prototype.start = function(){
+    var diffArr = $(this.el).data("diff").split(":");
+
+    this.hour = diffArr[0];
+    this.min = diffArr[1];
+    this.sec = diffArr[2];
+
+    this.time.setHours(this.hour);
+    this.time.setMinutes(this.min);
+    this.time.setSeconds(this.sec);
+
+    var currTimer = this;
+
+    this.timeInterval = setInterval(function(){
+        $(currTimer.el).text(pad(currTimer.hour,2) + ":" + pad(currTimer.min,2) + ":" + pad(currTimer.sec,2) );
+        currTimer.update();
+        if(currTimer.isOver){
+            clearInterval(currTimer.timeInterval);
+        }
+    },1000);
+};
+
+
+
+
 $(document).ready(function(){
-    var clock = new FlipClock($('.discount-clock'), {
-        autoStart : true
-    });
+    var discountClocks = $(".discount-clock");
+    for(var i=0;i<discountClocks.length;i++){
+        var temp = new Timer(discountClocks[i]);
+        temp.start();
+    }
 
     if ($("#dropDownDiscountedDuration").val() == 0) {
         showDiscountedPriceDiv(false);

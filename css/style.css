@@ -8,7 +8,7 @@ button{
 }
 
 .ticket-details{
-    height: 150px;
+    height: 140px;
 }
 
 .ticket-details p{
@@ -21,4 +21,22 @@ button{
 
 .ticket-buy-btn{
     margin-bottom: 20px;
+}
+
+.crossed-off{
+    text-decoration: line-through;
+    font-weight: normal !important;
+}
+
+.discounted-price{
+    color:red;
+    font-weight: bold;
+}
+
+.discount-clock{
+    float: right;
+    position: relative;
+    top:10px;
+    right: 50px;
+
 }

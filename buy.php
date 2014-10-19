@@ -20,18 +20,27 @@ $tickets = $MTicket->get_all_tickets();
                 echo "<div class='col-md-4'>";
                     echo "<div class='ticket-details'>";
                         echo "<h3 class='ticket-title'>{$ticket->get_title()}</h3>";
-                        echo "<p class='description'>".substr($ticket->get_description(),0,20)."</p>";
-                        echo "<p class='price'>\${$ticket->get_price()}</p>";
+                        echo "<p class='description'>".$ticket->get_description(true)."</p>";
+
+                        if($ticket->is_discounted()){
+                            echo "<p class='price crossed-off'>\${$ticket->get_price()}</p>";
+                            echo "<p class='discounted-price'>\${$ticket->get_discounted_price()} ({$ticket->get_discount_percentage()} % Off)</p>";
+                        }
+                        else{
+                            echo "<p class='price'>\${$ticket->get_price()}</p>";
+                        }
+
                         if($ticket->is_email_sharable()){
                             echo "<p>{$ticket->get_created_by_user()->get_email()}</p>";
                         }
                         if($ticket->is_phone_number_sharable()){
                             echo "<p>{$ticket->get_created_by_user()->get_phone_number()}</p>";
                         }
-                        //TODO put an if to check if the discount is still valid
-                        //echo "<div class='discount-clock'></div>";
                     echo "</div>";
                     echo "<div class='ticket-buy-btn'>";
+                        if($ticket->is_discounted()){
+                            echo "<p class='discount-clock' data-diff='{$ticket->get_discount_time_left()}'>{$ticket->get_discount_time_left()}</p>";
+                        }
                         echo  "<button class='btn btn-info'>Buy it</button>";
                     echo "</div>";
                 echo "</div>";

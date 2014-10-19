@@ -24,8 +24,7 @@
         <div class="navbar-collapse collapse navbar-responsive-collapse">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="<?php echo BASE_URL . "/buy.php";?>">Buy</a></li>
-                <li><a href="<?php echo BASE_URL . "/sellItem.php";?>"">Sell</a></li>
-
+                <li><a href="<?php echo BASE_URL . "/sellItem.php";?>">Sell</a></li>
             </ul>
             <form class="navbar-form navbar-left">
                 <input id="search-query" type="text" class="form-control col-lg-8" placeholder="Search">
