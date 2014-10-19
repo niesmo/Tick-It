@@ -2,3 +2,11 @@ body {
     padding-top: 50px;
     padding-bottom: 20px;
 }
+
+button{
+    border-radius: 0 !important;
+}
+
+.ticket-details{
+    height: 150px;
+}
