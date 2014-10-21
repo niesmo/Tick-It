@@ -30,12 +30,12 @@ function getLogin($con,$table,$sqlUser,$sqlPass,$user,$pass,$returnType)
 if(isset($_POST['formSubmit']))
 {
 			
-			if(getLogin($con,"user","email","password",$_POST['formEmail'],sha1($_POST['formPassword']),"boolean"))
+			if(getLogin($con,"user","username","password",$_POST['formUsername'],sha1($_POST['formPassword']),"boolean"))
 			{
 	  			$_SESSION['loggedIn']=true;
-	  			$_SESSION['userEmail']=$_POST['formEmail'];
+	  			$_SESSION['userEmail']=getEmailFromUsername($_POST['formUsername']);
 
-          		$_SESSION['userName']=getLogInUserName($_POST['formEmail']);
+          		$_SESSION['userName']=$_POST['formUsername'];
           		header( 'Location: buy.php' ) ;
 			}
   		else
@@ -48,15 +48,15 @@ if(isset($_POST['formSubmit']))
 
 
 
-function getLogInUserName($email)
+function getEmailFromUsername($user)
 {
     global $con;
 	
-	$result=mysqli_query($con,"SELECT * FROM user WHERE email='".$email."'");
+	$result=mysqli_query($con,"SELECT * FROM user WHERE username='".$user."'");
 	
 	while($row = mysqli_fetch_array($result))
   	{	
-  		return $row['username'];
+  		return $row['email'];
   	}
 
 	return false;
@@ -230,8 +230,10 @@ $('#btnRegister')
 		  <div style="text-align:left" >
 				
 
+		  		<label>Username:</label>
+				<input class="form-control" placeholder="Username" type="text" name="formUsername"/> <br>
 
-				<input class="form-control" placeholder="Email" type="text" name="formEmail"/> <br>
+		  		<label>Password:</label>
 				<input class="form-control" placeholder="Password" type="password" name="formPassword"/><br>
 				<input class="btn btn-lg btn-primary" type="submit" value="Log In" name="formSubmit"/><br>
 
@@ -256,11 +258,20 @@ $('#btnRegister')
 
 				<div class="form-group">
 				
+		  		<label>Username:</label>
 				<input placeholder="User Name" class="form-control" type="text" name="formUserName"/><br>
-				<input placeholder="Password" class="form-control" type="password" name="formPassword1"/><br>
-				<input placeholder="Confirm Password" class="form-control" type="password" name="formPassword2"/><br>
+
+				<label>Email:</label>
 				<input placeholder="Email" id="formEmail" class="form-control" type="text" name="formEmail"/><br>
 
+
+		  		<label>Password:</label>
+				<input placeholder="Password" class="form-control" type="password" name="formPassword1"/><br>
+
+		  		<label>Confirm Password:</label>
+				<input placeholder="Confirm Password" class="form-control" type="password" name="formPassword2"/><br>
+
+		  		
 
 				<button class="btn btn-lg btn-primary" data-loading-text="Loading..." id="btnRegister" onClick="submitRegistration();" name="formSubmit">Register</button>
 				</div>
