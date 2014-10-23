@@ -150,7 +150,7 @@ function registerValidUserName(bool,pUserName,pPassword,pEmail){
 	}
 	else
 	{
-		alert("User Name Already In Use");
+		document.getElementById("registerError").innerHTML="Username Already In Use.";
 	}
 }
 
@@ -159,12 +159,12 @@ function informRegistrationSuccess(bool)
 {
 	if(JSON.parse(bool))
 	{
-		alert("Registration Was Successful!");
+		document.getElementById("registerError").innerHTML="Successful!.";
 		window.location= "buy.php";
 	}
 	else
 	{
-		alert("Registration Failed, Please Try Again Later");
+		document.getElementById("registerError").innerHTML="Registration Failed, Please Try Again Later";
 	}
 }
 
@@ -177,25 +177,28 @@ function isValid( username,password1, password2,email)
 {
 
 	var valid=true;
-
+	document.getElementById("registerError").innerHTML="";
 	if(username.length<=3)
 	{
-		alert("Please Make Username Longer.");
-		valid=false;
-	}
-	else if(password1!=password2){
 
-		alert("Passwords don't match.");
-		valid=false;
-	}
-	else if(password1.length<REQUIREDPASSWORDLENGTH)
-	{
-		alert("Password Too Short.");
+		
+		document.getElementById("registerError").innerHTML="Please Make Username Longer."; 
 		valid=false;
 	}
 	else if(!isValidEmail(email))
 	{
-		alert("Email is not valid.");
+		document.getElementById("registerError").innerHTML="Email Not Valid.";
+		valid=false;
+	}
+
+	else if(password1.length<REQUIREDPASSWORDLENGTH)
+	{
+		document.getElementById("registerError").innerHTML="Password Too Short.";
+		valid=false;
+	}
+	else if(password1!=password2){
+
+		document.getElementById("registerError").innerHTML="Passwords Don't Match.";
 		valid=false;
 	}
 
@@ -255,7 +258,7 @@ $('#btnRegister')
 
 
 				<h1>Register:</h1>
-
+				<div><h4 style="color:red" id="registerError"></h4></div>
 				<div class="form-group">
 				
 		  		<label>Username:</label>
